@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradera.Api", "Tradera.Api\Tradera.Api.csproj", "{C22C8280-2AE1-4E53-8131-E593B7314BA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradera.Services", "Tradera.Services\Tradera.Services.csproj", "{87BBFB59-3E9C-4282-B2D7-6EFA0173B46E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradera.Models", "Tradera.Models\Tradera.Models.csproj", "{0A6E2AAD-9A54-4352-B5D2-4E08FAF95FA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradera.Binance", "Tradera.Binance\Tradera.Binance.csproj", "{83D140A1-B37A-4312-BD9A-16E63CAEDD94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B1BA5D7E-CE82-4A06-89B8-EEBC2AAC0FA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinanceTests", "BinanceTests\BinanceTests.csproj", "{516CC994-2254-42AB-8C1C-354F1D5363FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradera.Contract", "Tradera.Contract\Tradera.Contract.csproj", "{E0882CA6-CF71-4A51-AAD2-E59C6B177F98}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C22C8280-2AE1-4E53-8131-E593B7314BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C22C8280-2AE1-4E53-8131-E593B7314BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C22C8280-2AE1-4E53-8131-E593B7314BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C22C8280-2AE1-4E53-8131-E593B7314BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87BBFB59-3E9C-4282-B2D7-6EFA0173B46E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87BBFB59-3E9C-4282-B2D7-6EFA0173B46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87BBFB59-3E9C-4282-B2D7-6EFA0173B46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87BBFB59-3E9C-4282-B2D7-6EFA0173B46E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6E2AAD-9A54-4352-B5D2-4E08FAF95FA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6E2AAD-9A54-4352-B5D2-4E08FAF95FA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6E2AAD-9A54-4352-B5D2-4E08FAF95FA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6E2AAD-9A54-4352-B5D2-4E08FAF95FA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83D140A1-B37A-4312-BD9A-16E63CAEDD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D140A1-B37A-4312-BD9A-16E63CAEDD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83D140A1-B37A-4312-BD9A-16E63CAEDD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83D140A1-B37A-4312-BD9A-16E63CAEDD94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{516CC994-2254-42AB-8C1C-354F1D5363FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{516CC994-2254-42AB-8C1C-354F1D5363FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{516CC994-2254-42AB-8C1C-354F1D5363FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{516CC994-2254-42AB-8C1C-354F1D5363FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0882CA6-CF71-4A51-AAD2-E59C6B177F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0882CA6-CF71-4A51-AAD2-E59C6B177F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0882CA6-CF71-4A51-AAD2-E59C6B177F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0882CA6-CF71-4A51-AAD2-E59C6B177F98}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{516CC994-2254-42AB-8C1C-354F1D5363FE} = {B1BA5D7E-CE82-4A06-89B8-EEBC2AAC0FA6}
+	EndGlobalSection
+EndGlobal
