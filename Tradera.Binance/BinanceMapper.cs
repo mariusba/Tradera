@@ -42,7 +42,7 @@ namespace Tradera.Binance
         {
             return new ExchangeTicker()
             {
-                Symbol = model.s,
+                Identifier = new ProcessorIdentifier(ExchangeName.Binance, model.s),
                 EventTime = model.E,
                 Price = model.p
             };

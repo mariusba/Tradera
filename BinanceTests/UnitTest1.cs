@@ -10,7 +10,6 @@ namespace BinanceTests
 {
     public class Tests
     {
-        dd
 
         [SetUp]
         public void Setup()

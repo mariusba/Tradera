@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
 using Tradera.Models;
+using Tradera.Services.Utils;
 
 namespace Tradera.Services
 {
     public class NotificationsService : INotificationsService
     {
         private readonly decimal _threshold = 0.1m;
-        private decimal lastHighest;
+        private Dictionary<ProcessorIdentifier, decimal> lastHighest = new();
+        private KeyedSemaphoresCollection _semaphoresCollection = new();
         public Task DataUpdated(IEnumerable<ExchangeTicker> updatedData)
         {
             var notifyWith = ShouldNotify(updatedData);
@@ -23,13 +25,25 @@ namespace Tradera.Services
 
         private ExchangeTicker ShouldNotify(IEnumerable<ExchangeTicker> updatedData)
         {
+            
             var highestAmount = updatedData.OrderByDescending(u => u.Price).First();
-            if (highestAmount.Price > lastHighest * (1 + _threshold / 100))
+            var semaphore = _semaphoresCollection.GetOrCreate(highestAmount.Identifier);
+            semaphore.Wait();
+            if (lastHighest.TryGetValue(highestAmount.Identifier, out var prev))
             {
-                lastHighest = highestAmount.Price;
-                return highestAmount;
+                if (highestAmount.Price > prev * (1 + _threshold / 100))
+                {
+                    lastHighest[highestAmount.Identifier] = highestAmount.Price;
+                    semaphore.Release();
+                    return highestAmount;
+                }
+            }
+            else
+            {
+                lastHighest.Add(highestAmount.Identifier,highestAmount.Price);
             }
 
+            semaphore.Release();
             return null;
         }
 

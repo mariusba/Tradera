@@ -21,11 +21,7 @@ namespace Tradera.Api.Controllers
         [HttpGet]
         public async Task<PricesResponse> Start([FromQuery] string exchange, [FromQuery] string pair)
         {
-            return await _service.GetPrices(new ProcessorIdentifier
-            {
-                Name = ExchangeName.Binance,
-                Pair = pair
-            });
+            return await _service.GetPrices(new ProcessorIdentifier(ExchangeName.Binance, pair));
         }
     }
 }

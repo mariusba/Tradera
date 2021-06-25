@@ -4,6 +4,11 @@ namespace Tradera.Models
 {
     public class ProcessorIdentifier
     {
+        public ProcessorIdentifier(ExchangeName name, string pair)
+        {
+            Name = name;
+            Pair = pair;
+        }
         public ExchangeName Name { get; init; }
         public string Pair { get; init; }
 
