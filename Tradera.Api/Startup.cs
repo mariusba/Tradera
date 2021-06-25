@@ -38,19 +38,20 @@ namespace Tradera.Api
 
             services.AddSingleton<IWebSocketConfigurator, BinanceWebsocketConfigurator>();
             services.AddSingleton<IWebSocketConfigurator, RandomConf>();
-            
+
             services.AddSingleton<DataProvider>();
             services.Configure<NotificationOptions>(Configuration.GetSection("NotificationSettings"));
 
             services.AddSingleton<IPriceService, PriceService>();
             services.AddSingleton<INotificationsService, NotificationsService>();
             services.AddSingleton<IExchangeAgent, ExchangeAgent>();
-            
+
             services.AddSingleton<IMapper, BinanceMapper>();
             services.AddSingleton<IDataProcessor, DataProcessor>();
-
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IQueuedBackgroundService queuedBackgroundService)
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IQueuedBackgroundService queuedBackgroundService)
         {
             if (env.IsDevelopment())
             {

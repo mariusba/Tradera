@@ -7,6 +7,5 @@ namespace Tradera.Models
     {
         public ExchangeName Name { get; }
         public List<ExchangeTicker> Process(string json);
-
     }
 }

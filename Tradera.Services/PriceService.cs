@@ -13,7 +13,7 @@ namespace Tradera.Services
         {
             _manager = manager;
         }
-        
+
         public async Task<PricesResponse> GetPrices(ProcessorIdentifier identifier)
         {
             return await _manager.GetPrice(identifier);

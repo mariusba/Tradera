@@ -9,11 +9,16 @@ namespace Tradera.Models.ExchangeWrapper
     public class ExchangeWrapper : IObserver<IObservable<string>>, IObservable<ExchangeTicker>
     {
         private readonly IMapper _mapper;
-        private readonly Subject<ExchangeTicker> _subject =  new();
-        
+        private readonly Subject<ExchangeTicker> _subject = new();
+
         public ExchangeWrapper(IMapper mapper)
         {
             _mapper = mapper;
+        }
+
+        public IDisposable Subscribe(IObserver<ExchangeTicker> observer)
+        {
+            return _subject.Subscribe(observer);
         }
 
         public void OnCompleted()
@@ -30,25 +35,17 @@ namespace Tradera.Models.ExchangeWrapper
         {
             value.Select(s => _mapper.Process(s)).Subscribe(list => Notify(list));
         }
-        
+
         private void Notify(List<ExchangeTicker> tickers)
         {
             try
             {
-                foreach (var ticker in tickers)
-                {
-                    _subject.OnNext(ticker);   
-                }
+                foreach (var ticker in tickers) _subject.OnNext(ticker);
             }
             catch (Exception ex)
             {
                 Log.Error("error notifying {ex}", ex);
             }
-        }
-
-        public IDisposable Subscribe(IObserver<ExchangeTicker> observer)
-        {
-            return _subject.Subscribe(observer);
         }
     }
 }

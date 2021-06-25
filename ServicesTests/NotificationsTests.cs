@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +9,6 @@ using Tradera.Models;
 using Tradera.Models.ServiceResolvers;
 using Tradera.Services;
 
-
 namespace ServicesTests
 {
     public class NotificationsTests
@@ -20,7 +18,7 @@ namespace ServicesTests
         [SetUp]
         public void Setup()
         {
-            var options = new OptionsWrapper<NotificationOptions>(new NotificationOptions()
+            var options = new OptionsWrapper<NotificationOptions>(new NotificationOptions
             {
                 Threshold = 0.1m
             });
@@ -51,7 +49,7 @@ namespace ServicesTests
                 Assert.AreEqual(2, messages.Count());
             }
         }
-        
+
         [Test]
         public async Task AssertNotificationIsNotSent_WhenPriceIsLower()
         {
@@ -74,7 +72,7 @@ namespace ServicesTests
                 Assert.AreEqual(1, messages.Count());
             }
         }
-        
+
         [Test]
         public async Task AssertNotificationIsNotSent_ForDifferentTickers()
         {
@@ -94,7 +92,7 @@ namespace ServicesTests
                 });
 
                 _service.DataUpdated(tickers);
-                
+
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "DOGEBTC"),
@@ -106,6 +104,5 @@ namespace ServicesTests
                 Assert.AreEqual(2, messages.Count());
             }
         }
-        
     }
 }

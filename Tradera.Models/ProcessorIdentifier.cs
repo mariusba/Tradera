@@ -9,14 +9,15 @@ namespace Tradera.Models
             Name = name;
             Pair = pair;
         }
+
         public ExchangeName Name { get; init; }
         public string Pair { get; init; }
 
         public override int GetHashCode()
         {
             var hash = 13;
-            hash = (hash * 7) + Name.ToString().GetHashCode();
-            hash = (hash * 7) + Pair.GetHashCode();
+            hash = hash * 7 + Name.ToString().GetHashCode();
+            hash = hash * 7 + Pair.GetHashCode();
             return hash;
         }
 

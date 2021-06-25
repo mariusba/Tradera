@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
 using Tradera.Models.ServiceResolvers;
@@ -39,7 +38,6 @@ namespace Tradera.Models.WebSockets
 
                                 if (result.MessageType == WebSocketMessageType.Text)
                                 {
-
                                     stream.Seek(0, SeekOrigin.Begin);
                                     var bufferRead = new ArraySegment<byte>(new byte[stream.Length]);
                                     stream.Read(bufferRead.Array, 0, (int) stream.Length);
@@ -56,7 +54,7 @@ namespace Tradera.Models.WebSockets
                     }
                     catch (Exception ex)
                     {
-                     Log.Error("error in observer {ex}", ex);   
+                        Log.Error("error in observer {ex}", ex);
                     }
 
                     return null;

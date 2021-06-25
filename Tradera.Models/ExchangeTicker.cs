@@ -1,5 +1,3 @@
-using Tradera.Models.ServiceResolvers;
-
 namespace Tradera.Models
 {
     public class ExchangeTicker

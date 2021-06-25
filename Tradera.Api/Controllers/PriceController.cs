@@ -20,10 +20,11 @@ namespace Tradera.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PricesResponse>> Start([FromQuery] string pair, [FromQuery] string exchange = "Binance")
+        public async Task<ActionResult<PricesResponse>> Start([FromQuery] string pair,
+            [FromQuery] string exchange = "Binance")
         {
-            if(TryParse<ExchangeName>(exchange, out var exchangeEnum))
-             return await _service.GetPrices(new ProcessorIdentifier(exchangeEnum, pair));
+            if (TryParse<ExchangeName>(exchange, out var exchangeEnum))
+                return await _service.GetPrices(new ProcessorIdentifier(exchangeEnum, pair));
             return BadRequest("unknown exchange");
         }
     }

@@ -36,7 +36,7 @@ namespace Tradera.Binance
             {
                 Log.Error("error deserializing json {e} for string {json}", e, json);
             }
-            
+
             return items;
         }
 
@@ -52,16 +52,9 @@ namespace Tradera.Binance
 
         private static BinanceResponse CleanUpAndDeserialize(string s)
         {
-            if (!s.StartsWith("{"))
-            {
-                s = "{" + s;
-            }
-            if (!s.EndsWith("}"))
-            {
-                s = s + "}";
-            }
+            if (!s.StartsWith("{")) s = "{" + s;
+            if (!s.EndsWith("}")) s = s + "}";
             return JsonConvert.DeserializeObject<BinanceResponse>(s);
         }
-
     }
 }

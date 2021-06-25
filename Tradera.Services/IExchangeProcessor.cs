@@ -9,6 +9,5 @@ namespace Tradera.Services
         public Task AddEntry(ExchangeTicker ticker);
         public PricesResponse GetPrice(ProcessorIdentifier identifier);
         public Task StopProcessingFor(ProcessorIdentifier identifier);
-
     }
 }

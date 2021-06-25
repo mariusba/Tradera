@@ -12,22 +12,21 @@ namespace Tradera.Services
     public class NotificationsService : INotificationsService
     {
         private readonly NotificationOptions _options;
-        private readonly Dictionary<ProcessorIdentifier, decimal> lastHighest = new();
         private readonly KeyedSemaphoresCollection _semaphoresCollection = new();
+        private readonly Dictionary<ProcessorIdentifier, decimal> lastHighest = new();
 
         public NotificationsService(IOptions<NotificationOptions> options)
         {
             _options = options.Value;
         }
+
         public Task DataUpdated(IEnumerable<ExchangeTicker> updatedData)
         {
             var notifyWith = ShouldNotify(updatedData);
-            if (notifyWith != null)
-            {
-                Notify(notifyWith);
-            }
+            if (notifyWith != null) Notify(notifyWith);
             return Task.CompletedTask;
         }
+
         public Task Clear(ProcessorIdentifier identifier)
         {
             lastHighest.Remove(identifier);
@@ -50,7 +49,7 @@ namespace Tradera.Services
             }
             else
             {
-                lastHighest.Add(highestAmount.Identifier,highestAmount.Price);
+                lastHighest.Add(highestAmount.Identifier, highestAmount.Price);
                 semaphore.Release();
                 return highestAmount;
             }

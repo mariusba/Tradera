@@ -23,7 +23,8 @@ namespace Tradera.Models.WebSockets
             return _serviceResolver.First(p => p.Id == provider).ChunkSize;
         }
 
-        public async Task<ClientWebSocket> GetDataProviderAsync(ExchangeName provider, string pair, CancellationToken ct)
+        public async Task<ClientWebSocket> GetDataProviderAsync(ExchangeName provider, string pair,
+            CancellationToken ct)
         {
             try
             {
@@ -38,6 +39,5 @@ namespace Tradera.Models.WebSockets
                 return null;
             }
         }
-        
     }
 }

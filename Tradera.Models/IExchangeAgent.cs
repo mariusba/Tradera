@@ -6,6 +6,5 @@ namespace Tradera.Models
     {
         public IObservable<T> GetObservable<T>(ProcessorIdentifier identifier);
         public void AddObservable<T>(IObservable<T> observable, ProcessorIdentifier identifier);
-
     }
 }

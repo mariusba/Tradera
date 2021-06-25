@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Tradera.Contract;
 using Tradera.Services;
 
@@ -10,7 +9,6 @@ namespace Tradera.Api.Controllers
     [Route("jobs")]
     public class BackgroundJobController : ControllerBase
     {
-
         private readonly IBackgroundJobService _service;
 
         public BackgroundJobController(IBackgroundJobService service)
@@ -24,7 +22,7 @@ namespace Tradera.Api.Controllers
             await _service.Start(request);
             return Accepted();
         }
-        
+
         [HttpPost("stop")]
         public async Task<ActionResult> Stop([FromBody] StopTaskRequest request)
         {
