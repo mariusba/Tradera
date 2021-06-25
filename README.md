@@ -26,10 +26,11 @@ In order to start this service, simple boot it up and select Run/Debug configura
 
 ## Usage 
 
-1.Start Up service
+1. Start Up service
 2. POST to https://localhost:5001/jobs/start with exchange/pair identifier to start background process
 3. GET https://localhost:5001/prices with query params of identifier to retrieve highest/lowest price in last 100 events
 4. POST to https://localhost:5001/jobs/stop with exchange/pair identifier to stop background process
+5. https://localhost:5001/swagger/index.html for swagger
     
 ## Remarks 
 
