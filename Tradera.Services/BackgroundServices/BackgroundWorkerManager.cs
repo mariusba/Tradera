@@ -32,11 +32,11 @@ namespace Tradera.Services.BackgroundServices
         }
         public async Task StartProcessor(ProcessorIdentifier identifier, CancellationToken ct)
         {
-            _exchangeAgent.AddObservable(new Observable(_provider, ExchangeName.Binance, identifier.Pair), identifier);
+            _exchangeAgent.AddObservable(new Observable(_provider, identifier.Name, identifier.Pair), identifier);
             var disposables = new List<IDisposable>();
             var observable = _exchangeAgent.GetObservable<string>(identifier);
             var wrapper = new ExchangeWrapper(
-                _mappers.First(m => m.Name == ExchangeName.Binance));
+                _mappers.First(m => m.Name == identifier.Name));
             
             disposables.Add(observable.Window(TimeSpan.FromMilliseconds(10)).Subscribe(wrapper));
             disposables.Add(wrapper.Subscribe(k => _processor.AddEntry(k)));
@@ -65,7 +65,7 @@ namespace Tradera.Services.BackgroundServices
         public async Task<PricesResponse> GetPrice(ProcessorIdentifier identifier)
         { 
             return await _processor.GetPrice(identifier);
-           
+
         }
     }
 }

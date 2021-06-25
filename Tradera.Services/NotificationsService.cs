@@ -23,6 +23,12 @@ namespace Tradera.Services
             return Task.CompletedTask;
         }
 
+        public Task Clear(ProcessorIdentifier identifier)
+        {
+            lastHighest.Remove(identifier);
+            return Task.CompletedTask;
+        }
+
         private ExchangeTicker ShouldNotify(IEnumerable<ExchangeTicker> updatedData)
         {
             var highestAmount = updatedData.OrderByDescending(u => u.Price).First();

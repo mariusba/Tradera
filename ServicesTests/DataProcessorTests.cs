@@ -24,11 +24,14 @@ namespace ServicesTests
         }
 
         [Test]
-        public async Task AssertNotificationsAreNotSent()
+        public async Task AssertNotificationsAreSentOnFirst()
         {
             var dataProcessor = new DataProcessor(_notifications.Object);
-            await dataProcessor.AddEntry(new ExchangeTicker());
-            _notifications.Verify(c => c.DataUpdated(It.IsAny<IEnumerable<ExchangeTicker>>()), Times.Never);
+            await dataProcessor.AddEntry(new ExchangeTicker
+            {
+                Identifier = new ProcessorIdentifier(ExchangeName.Binance, "btcusdt")
+            });
+            _notifications.Verify(c => c.DataUpdated(It.IsAny<IEnumerable<ExchangeTicker>>()), Times.Once);
         }
         
         [Test]
@@ -37,10 +40,13 @@ namespace ServicesTests
             var dataProcessor = new DataProcessor(_notifications.Object);
             for (int i = 0; i < 101; i++)
             {
-                await dataProcessor.AddEntry(new ExchangeTicker());
+                await dataProcessor.AddEntry(new ExchangeTicker
+                    {
+                    Identifier = new ProcessorIdentifier(ExchangeName.Binance, "btcusdt")
+                    });
             }
 
-            _notifications.Verify(c => c.DataUpdated(It.IsAny<IEnumerable<ExchangeTicker>>()), Times.Once);
+            _notifications.Verify(c => c.DataUpdated(It.IsAny<IEnumerable<ExchangeTicker>>()), Times.Exactly(101)); 
         }
         
         [Test]
@@ -52,16 +58,23 @@ namespace ServicesTests
                 await dataProcessor.AddEntry(new ExchangeTicker
                 {
                     EventTime = i,
+                    Identifier = new ProcessorIdentifier(ExchangeName.Binance, "btcusdt")
                 });
             }
             
             await dataProcessor.AddEntry(new ExchangeTicker
             {
                 EventTime = 5,
+                Identifier = new ProcessorIdentifier(ExchangeName.Binance, "btcusdt")
+            });
+            await dataProcessor.AddEntry(new ExchangeTicker
+            {
+                EventTime = 5,
+                Identifier = new ProcessorIdentifier(ExchangeName.Binance, "btcusdt")
             });
             
             
-            _notifications.Verify(c => c.DataUpdated(It.IsAny<IEnumerable<ExchangeTicker>>()), Times.Once);
+            _notifications.Verify(c => c.DataUpdated(It.IsAny<IEnumerable<ExchangeTicker>>()), Times.Exactly(101));
         }
 
     }

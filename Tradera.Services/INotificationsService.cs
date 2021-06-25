@@ -7,5 +7,6 @@ namespace Tradera.Services
     public interface INotificationsService
     {
         public Task DataUpdated(IEnumerable<ExchangeTicker> updatedData);
+        public Task Clear(ProcessorIdentifier identifier);
     }
 }

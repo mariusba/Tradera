@@ -4,6 +4,7 @@ using Tradera.Contract;
 using Tradera.Models;
 using Tradera.Models.ServiceResolvers;
 using Tradera.Services;
+using static System.Enum;
 
 namespace Tradera.Api.Controllers
 {
@@ -19,9 +20,11 @@ namespace Tradera.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<PricesResponse> Start([FromQuery] string exchange, [FromQuery] string pair)
+        public async Task<ActionResult<PricesResponse>> Start([FromQuery] string pair, [FromQuery] string exchange = "Binance")
         {
-            return await _service.GetPrices(new ProcessorIdentifier(ExchangeName.Binance, pair));
+            if(TryParse<ExchangeName>(exchange, out var exchangeEnum))
+             return await _service.GetPrices(new ProcessorIdentifier(exchangeEnum, pair));
+            return BadRequest("unknown exchange");
         }
     }
 }

@@ -23,7 +23,8 @@ namespace Tradera.Services
         {
             if (!_storage.TryGetValue(ticker.Identifier, out var items))
             {
-               _storage.TryAdd(ticker.Identifier, new List<ExchangeTicker>());
+                items = new List<ExchangeTicker>();
+               _storage.TryAdd(ticker.Identifier, items);
             }
 
             if (items.Count == 0 || items.Last().EventTime <= ticker.EventTime)
@@ -37,24 +38,21 @@ namespace Tradera.Services
             }
         }
 
-        public Task<PricesResponse> GetPrice(ProcessorIdentifier identifier)
+        public async Task<PricesResponse> GetPrice(ProcessorIdentifier identifier)
         {
-            if (_storage.TryGetValue(identifier, out var items))
+            if (!_storage.TryGetValue(identifier, out var items)) return new PricesResponse();
+            if (items.Count < 2)
             {
-                if (items.Count < 2)
-                {
-                    return null;
-                }
-
-                var sorted = items.OrderByDescending(i => i.Price).ToArray();
-                return Task.FromResult(new PricesResponse
-                {
-                    HighestPrice = sorted.First().Price,
-                    LowestPrice = sorted.Last().Price,
-                });
+                return new PricesResponse();
             }
 
-            return null;
+            var sorted = items.OrderByDescending(i => i.Price).ToArray();
+            return new PricesResponse
+            {
+                HighestPrice = sorted.First().Price,
+                LowestPrice = sorted.Last().Price,
+            };
+
         }
 
         public Task StopProcessingFor(ProcessorIdentifier identifier)
@@ -62,6 +60,7 @@ namespace Tradera.Services
            if( _storage.TryRemove(identifier, out var removed))
            {
                Log.Information("processing for {exchange} {ticker} stopped", identifier.Name, identifier.Pair);
+               _notificationsService.Clear(identifier);
            }
            else
 
