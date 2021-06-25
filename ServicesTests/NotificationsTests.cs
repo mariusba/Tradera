@@ -35,18 +35,20 @@ namespace ServicesTests
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
+                    EventTime =1,
                     Price = 10
                 });
                 _service.DataUpdated(tickers);
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
-                    Price = 11
+                    EventTime=2,
+                    Price = 9
                 });
 
                 _service.DataUpdated(tickers);
                 var messages = TestCorrelator.GetLogEventsFromCurrentContext();
-                Assert.AreEqual(2, messages.Count());
+                Assert.AreEqual(1, messages.Count());
             }
         }
 
@@ -59,17 +61,19 @@ namespace ServicesTests
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
-                    Price = 10
+                    EventTime = 1,
+                    Price = 9
                 });
                 _service.DataUpdated(tickers);
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
-                    Price = 9
+                    EventTime = 2,
+                    Price = 10
                 });
 
                 var messages = TestCorrelator.GetLogEventsFromCurrentContext();
-                Assert.AreEqual(1, messages.Count());
+                Assert.AreEqual(0, messages.Count());
             }
         }
 
