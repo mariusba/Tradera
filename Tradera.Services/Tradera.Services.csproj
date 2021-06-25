@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BinanceTests\BinanceTests.csproj" />
       <ProjectReference Include="..\Tradera.Binance\Tradera.Binance.csproj" />
       <ProjectReference Include="..\Tradera.Contract\Tradera.Contract.csproj" />
       <ProjectReference Include="..\Tradera.Models\Tradera.Models.csproj" />

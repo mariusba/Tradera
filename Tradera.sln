@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradera.Binance", "Tradera.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B1BA5D7E-CE82-4A06-89B8-EEBC2AAC0FA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinanceTests", "BinanceTests\BinanceTests.csproj", "{516CC994-2254-42AB-8C1C-354F1D5363FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesTests", "ServicesTests\ServicesTests.csproj", "{516CC994-2254-42AB-8C1C-354F1D5363FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tradera.Contract", "Tradera.Contract\Tradera.Contract.csproj", "{E0882CA6-CF71-4A51-AAD2-E59C6B177F98}"
 EndProject

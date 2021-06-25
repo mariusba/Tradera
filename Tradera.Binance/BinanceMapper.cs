@@ -42,7 +42,7 @@ namespace Tradera.Binance
         {
             return new()
             {
-                Identifier = new ProcessorIdentifier(ExchangeName.Binance, model.s),
+                Identifier = new ProcessorIdentifier(ExchangeName.Binance, model.s.ToLower()),
                 EventTime = model.E,
                 Price = model.p
             };

@@ -67,5 +67,10 @@ namespace Tradera.Models.WebSockets
         {
             return _observable.Subscribe(observer);
         }
+
+        public IDisposable Subscribe(ExchangeWrapper.ExchangeWrapper observer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

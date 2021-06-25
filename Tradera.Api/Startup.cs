@@ -48,6 +48,7 @@ namespace Tradera.Api
             services.AddSingleton<IExchangeAgent, ExchangeAgent>();
             
             services.AddSingleton<IMapper, BinanceMapper>();
+            services.AddSingleton<IDataProcessor, DataProcessor>();
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IQueuedBackgroundService queuedBackgroundService)

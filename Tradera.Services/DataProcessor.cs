@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,8 +10,9 @@ namespace Tradera.Services
 {
     public class DataProcessor : IDataProcessor
     {
-        private readonly List<ExchangeTicker> _items = new();
+        private readonly ConcurrentDictionary<ProcessorIdentifier,List<ExchangeTicker>> _storage = new();
         private readonly INotificationsService _notificationsService;
+        private const int ItemsToStore = 100;
 
         public DataProcessor(INotificationsService notificationsService)
         {
@@ -19,38 +21,54 @@ namespace Tradera.Services
 
         public async Task AddEntry(ExchangeTicker ticker)
         {
-            if (_items.Count < 100)
+            if (!_storage.TryGetValue(ticker.Identifier, out var items))
             {
-                _items.Add(ticker);
+               _storage.TryAdd(ticker.Identifier, new List<ExchangeTicker>());
             }
-            else
+
+            if (items.Count == 0 || items.Last().EventTime <= ticker.EventTime)
             {
-                if (_items.Last().EventTime <= ticker.EventTime)
+                if (items.Count >= ItemsToStore)
                 {
-                    _items.RemoveAt(0);
-                    _items.Add(ticker);
-                    await Task.Run(() => _notificationsService.DataUpdated(_items));
+                    items.RemoveAt(0);
                 }
-                else
-                {
-                    Log.Warning("past event received");
-                }
+                items.Add(ticker);
+                await Task.Run(() => _notificationsService.DataUpdated(items));
             }
         }
 
-        public Task<PricesResponse> GetPrice()
+        public Task<PricesResponse> GetPrice(ProcessorIdentifier identifier)
         {
-            if (_items.Count < 2)
+            if (_storage.TryGetValue(identifier, out var items))
             {
-                return null;
+                if (items.Count < 2)
+                {
+                    return null;
+                }
+
+                var sorted = items.OrderByDescending(i => i.Price).ToArray();
+                return Task.FromResult(new PricesResponse
+                {
+                    HighestPrice = sorted.First().Price,
+                    LowestPrice = sorted.Last().Price,
+                });
             }
-            var sorted = _items.OrderByDescending(i => i.Price).ToArray();
-            return Task.FromResult(new PricesResponse
-            {
-                HighestPrice = sorted.First().Price,
-                LowestPrice = sorted.Last().Price,
-            });
+
+            return null;
         }
-        
+
+        public Task StopProcessingFor(ProcessorIdentifier identifier)
+        {
+           if( _storage.TryRemove(identifier, out var removed))
+           {
+               Log.Information("processing for {exchange} {ticker} stopped", identifier.Name, identifier.Pair);
+           }
+           else
+
+           {
+               Log.Error("Unable to remove");
+           }
+           return Task.CompletedTask;
+        }
     }
 }
