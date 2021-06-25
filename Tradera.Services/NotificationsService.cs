@@ -12,8 +12,8 @@ namespace Tradera.Services
     public class NotificationsService : INotificationsService
     {
         private readonly NotificationOptions _options;
-        private readonly KeyedSemaphoresCollection _semaphoresCollection = new();
-        private readonly Dictionary<ProcessorIdentifier, decimal> lastHighest = new();
+        //private readonly KeyedSemaphoresCollection _semaphoresCollection = new();
+        //private readonly Dictionary<ProcessorIdentifier, decimal> lastHighest = new();
 
         public NotificationsService(IOptions<NotificationOptions> options)
         {
@@ -29,32 +29,33 @@ namespace Tradera.Services
 
         public Task Clear(ProcessorIdentifier identifier)
         {
-            lastHighest.Remove(identifier);
+            //lastHighest.Remove(identifier);
             return Task.CompletedTask;
         }
 
         private ExchangeTicker ShouldNotify(IEnumerable<ExchangeTicker> updatedData)
         {
             var highestAmount = updatedData.OrderByDescending(u => u.Price).First();
-            var semaphore = _semaphoresCollection.GetOrCreate(highestAmount.Identifier);
-            semaphore.Wait();
-            if (lastHighest.TryGetValue(highestAmount.Identifier, out var prev))
-            {
-                if (highestAmount.Price > prev * (1 + _options.Threshold / 100))
+            var lastTrade = updatedData.OrderByDescending(u => u.EventTime).First();
+           // var semaphore = _semaphoresCollection.GetOrCreate(highestAmount.Identifier);
+          //  semaphore.Wait();
+           // if (lastHighest.TryGetValue(highestAmount.Identifier, out var prev))
+           // {
+                if (highestAmount.Price > lastTrade.Price * (1 + _options.Threshold / 100))
                 {
-                    lastHighest[highestAmount.Identifier] = highestAmount.Price;
-                    semaphore.Release();
+                    //lastHighest[highestAmount.Identifier] = highestAmount.Price;
+                   // semaphore.Release();
                     return highestAmount;
                 }
-            }
+           /* }
             else
             {
-                lastHighest.Add(highestAmount.Identifier, highestAmount.Price);
+               // lastHighest.Add(highestAmount.Identifier, highestAmount.Price);
                 semaphore.Release();
                 return highestAmount;
             }
 
-            semaphore.Release();
+            semaphore.Release(); */
             return null;
         }
 
