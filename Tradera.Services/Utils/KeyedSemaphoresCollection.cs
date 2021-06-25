@@ -20,9 +20,6 @@ namespace Tradera.Services.Utils
                 _semaphores.TryAdd(identifier, k);
                 return k;
             }
-            
         }
-        
-        
     }
 }

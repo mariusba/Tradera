@@ -40,7 +40,7 @@ namespace Tradera.Binance
 
         private static ExchangeTicker Map(BinanceResponse model)
         {
-            return new ExchangeTicker()
+            return new()
             {
                 Identifier = new ProcessorIdentifier(ExchangeName.Binance, model.s),
                 EventTime = model.E,

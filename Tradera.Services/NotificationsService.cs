@@ -11,8 +11,8 @@ namespace Tradera.Services
     public class NotificationsService : INotificationsService
     {
         private readonly decimal _threshold = 0.1m;
-        private Dictionary<ProcessorIdentifier, decimal> lastHighest = new();
-        private KeyedSemaphoresCollection _semaphoresCollection = new();
+        private readonly Dictionary<ProcessorIdentifier, decimal> lastHighest = new();
+        private readonly KeyedSemaphoresCollection _semaphoresCollection = new();
         public Task DataUpdated(IEnumerable<ExchangeTicker> updatedData)
         {
             var notifyWith = ShouldNotify(updatedData);
@@ -25,7 +25,6 @@ namespace Tradera.Services
 
         private ExchangeTicker ShouldNotify(IEnumerable<ExchangeTicker> updatedData)
         {
-            
             var highestAmount = updatedData.OrderByDescending(u => u.Price).First();
             var semaphore = _semaphoresCollection.GetOrCreate(highestAmount.Identifier);
             semaphore.Wait();
@@ -41,6 +40,8 @@ namespace Tradera.Services
             else
             {
                 lastHighest.Add(highestAmount.Identifier,highestAmount.Price);
+                semaphore.Release();
+                return highestAmount;
             }
 
             semaphore.Release();
@@ -49,7 +50,8 @@ namespace Tradera.Services
 
         private static void Notify(ExchangeTicker data)
         {
-            Log.Information("Event triggered with data {price}",data.Price.ToString(CultureInfo.InvariantCulture));
+            Log.Information("Event triggered with data {price} at time {time}",
+                data.Price.ToString(CultureInfo.InvariantCulture), data.EventTime);
         }
     }
 }

@@ -51,5 +51,6 @@ namespace Tradera.Services
                 LowestPrice = sorted.Last().Price,
             });
         }
+        
     }
 }
