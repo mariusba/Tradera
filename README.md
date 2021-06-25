@@ -16,13 +16,13 @@ In order to start this service, simple boot it up and select Run/Debug configura
 ### Prerequisites
 
 1. Required:
-    * [.NET5 *](https://dotnet.microsoft.com/download/dotnet/5.0) - Hosting boundle runtime for hosting the backend service
+    * [.NET5 ](https://dotnet.microsoft.com/download/dotnet/5.0) - Hosting boundle runtime for hosting the backend service
 2. Optional:
    
        * Development IDE
-        * [Visual Studio](https://visualstudio.microsoft.com/downloads)
-        * [Visual Studio Code](https://code.visualstudio.com/)
-        * [Rider](https://www.jetbrains.com/rider/)
+       * [Visual Studio](https://visualstudio.microsoft.com/downloads)
+       * [Visual Studio Code](https://code.visualstudio.com/)
+       * [Rider](https://www.jetbrains.com/rider/)
 
 
 ## Usage 
