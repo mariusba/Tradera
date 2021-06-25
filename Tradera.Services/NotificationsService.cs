@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Tradera.Models;
 using Tradera.Services.Utils;
@@ -10,9 +11,14 @@ namespace Tradera.Services
 {
     public class NotificationsService : INotificationsService
     {
-        private readonly decimal _threshold = 0.1m;
+        private readonly NotificationOptions _options;
         private readonly Dictionary<ProcessorIdentifier, decimal> lastHighest = new();
         private readonly KeyedSemaphoresCollection _semaphoresCollection = new();
+
+        public NotificationsService(IOptions<NotificationOptions> options)
+        {
+            _options = options.Value;
+        }
         public Task DataUpdated(IEnumerable<ExchangeTicker> updatedData)
         {
             var notifyWith = ShouldNotify(updatedData);
@@ -22,7 +28,6 @@ namespace Tradera.Services
             }
             return Task.CompletedTask;
         }
-
         public Task Clear(ProcessorIdentifier identifier)
         {
             lastHighest.Remove(identifier);
@@ -36,7 +41,7 @@ namespace Tradera.Services
             semaphore.Wait();
             if (lastHighest.TryGetValue(highestAmount.Identifier, out var prev))
             {
-                if (highestAmount.Price > prev * (1 + _threshold / 100))
+                if (highestAmount.Price > prev * (1 + _options.Threshold / 100))
                 {
                     lastHighest[highestAmount.Identifier] = highestAmount.Price;
                     semaphore.Release();

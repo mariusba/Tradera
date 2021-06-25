@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Serilog;
 using Serilog.Sinks.TestCorrelator;
@@ -14,10 +15,16 @@ namespace ServicesTests
 {
     public class NotificationsTests
     {
+        private INotificationsService _service;
 
         [SetUp]
         public void Setup()
         {
+            var options = new OptionsWrapper<NotificationOptions>(new NotificationOptions()
+            {
+                Threshold = 0.1m
+            });
+            _service = new NotificationsService(options);
             Log.Logger = new LoggerConfiguration().WriteTo.TestCorrelator().CreateLogger();
         }
 
@@ -26,21 +33,20 @@ namespace ServicesTests
         {
             using (TestCorrelator.CreateContext())
             {
-                var notificationsService = new NotificationsService();
                 var tickers = new List<ExchangeTicker>();
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
                     Price = 10
                 });
-                notificationsService.DataUpdated(tickers);
+                _service.DataUpdated(tickers);
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
                     Price = 11
                 });
 
-                notificationsService.DataUpdated(tickers);
+                _service.DataUpdated(tickers);
                 var messages = TestCorrelator.GetLogEventsFromCurrentContext();
                 Assert.AreEqual(2, messages.Count());
             }
@@ -51,21 +57,19 @@ namespace ServicesTests
         {
             using (TestCorrelator.CreateContext())
             {
-                var notificationsService = new NotificationsService();
                 var tickers = new List<ExchangeTicker>();
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
                     Price = 10
                 });
-                notificationsService.DataUpdated(tickers);
+                _service.DataUpdated(tickers);
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
                     Price = 9
                 });
 
-                notificationsService.DataUpdated(tickers);
                 var messages = TestCorrelator.GetLogEventsFromCurrentContext();
                 Assert.AreEqual(1, messages.Count());
             }
@@ -76,21 +80,20 @@ namespace ServicesTests
         {
             using (TestCorrelator.CreateContext())
             {
-                var notificationsService = new NotificationsService();
                 var tickers = new List<ExchangeTicker>();
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "BTCUSDT"),
                     Price = 10
                 });
-                notificationsService.DataUpdated(tickers);
+                _service.DataUpdated(tickers);
                 tickers.Add(new ExchangeTicker
                 {
                     Identifier = new ProcessorIdentifier(ExchangeName.Binance, "DOGEBTC"),
                     Price = 500
                 });
 
-                notificationsService.DataUpdated(tickers);
+                _service.DataUpdated(tickers);
                 
                 tickers.Add(new ExchangeTicker
                 {
@@ -98,7 +101,7 @@ namespace ServicesTests
                     Price = 300
                 });
 
-                notificationsService.DataUpdated(tickers);
+                _service.DataUpdated(tickers);
                 var messages = TestCorrelator.GetLogEventsFromCurrentContext();
                 Assert.AreEqual(2, messages.Count());
             }

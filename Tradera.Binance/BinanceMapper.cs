@@ -20,12 +20,14 @@ namespace Tradera.Binance
                 {
                     foreach (var s in json.Split("}{"))
                     {
-                        items.Add(Map(CleanUpAndDeserialize(s)));
+                        var mapped = Map(CleanUpAndDeserialize(s));
+                        items.Add(mapped);
                     }
                 }
                 else
                 {
-                    items.Add(Map(CleanUpAndDeserialize(json)));
+                    var mapped = Map(CleanUpAndDeserialize(json));
+                    items.Add(mapped);
                 }
 
                 return items;

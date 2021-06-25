@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Tradera.Models;
 
-namespace Tradera.Binance
+namespace Tradera.Services
 {
     
     public class ExchangeAgent : IExchangeAgent

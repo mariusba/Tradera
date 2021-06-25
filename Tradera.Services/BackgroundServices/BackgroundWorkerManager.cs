@@ -64,7 +64,7 @@ namespace Tradera.Services.BackgroundServices
 
         public async Task<PricesResponse> GetPrice(ProcessorIdentifier identifier)
         { 
-            return await _processor.GetPrice(identifier);
+            return _processor.GetPrice(identifier);
 
         }
     }

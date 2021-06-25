@@ -38,7 +38,7 @@ namespace Tradera.Services
             }
         }
 
-        public async Task<PricesResponse> GetPrice(ProcessorIdentifier identifier)
+        public PricesResponse GetPrice(ProcessorIdentifier identifier)
         {
             if (!_storage.TryGetValue(identifier, out var items)) return new PricesResponse();
             if (items.Count < 2)
@@ -57,7 +57,7 @@ namespace Tradera.Services
 
         public Task StopProcessingFor(ProcessorIdentifier identifier)
         {
-           if( _storage.TryRemove(identifier, out var removed))
+           if( _storage.TryRemove(identifier, out _))
            {
                Log.Information("processing for {exchange} {ticker} stopped", identifier.Name, identifier.Pair);
                _notificationsService.Clear(identifier);

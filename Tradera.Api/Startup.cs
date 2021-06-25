@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +40,7 @@ namespace Tradera.Api
             services.AddSingleton<IWebSocketConfigurator, RandomConf>();
             
             services.AddSingleton<DataProvider>();
+            services.Configure<NotificationOptions>(Configuration.GetSection("NotificationSettings"));
 
             services.AddSingleton<IPriceService, PriceService>();
             services.AddSingleton<INotificationsService, NotificationsService>();
